@@ -1,0 +1,23 @@
+@isTest
+private class LeadprocessorTest {
+    @testSetup 
+    static void setup() {
+        List<Lead> leads = new List<Lead>();
+        
+        for (Integer i=0;i<10;i++) {
+            leads.add(new Lead(Lastname='Lead '+i, 
+                company ='Test co'));
+        }
+        insert leads;
+        
+    }
+    static testmethod void test() {        
+        Test.startTest();
+        Leadprocessor myleads1 = new Leadprocessor(); 
+	Id batchId = Database.executeBatch(myleads1);
+        Test.stopTest();
+        // after the testing stops, assert records were updated properly
+        System.assertEquals(10, [select count() from Lead where Leadsource = 'WEB']);
+    }
+    
+}
